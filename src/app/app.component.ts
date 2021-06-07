@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NewsApiService } from '../services/news-api.service';
+import { NewsApiService } from '../Services/news-api.service';
 
 @Component({
   selector: 'app-root',
@@ -9,14 +9,24 @@ import { NewsApiService } from '../services/news-api.service';
 export class AppComponent {
   title = 'NewsAllAround';
 
-  mArticles: any;
-  mSources: Array<any> =[];
+  mArticles: Array<any> = [];
+	mSources: Array<any> = [];
+  
+  // mArticles: Article[] | undefined;
+  // mSources: Source[] | undefined;
 
   constructor(private newsApi: NewsApiService){}
 
   ngOnInit(){
-    this.newsApi.initArticles().subscribe(data => console.log(data));
+    //load articles
+    this.newsApi.initHeadlines().subscribe(data => this.mArticles = data['articles']);
+		//load news sources
+		this.newsApi.initSources().subscribe(data=> this.mSources = data['sources']);	
+  }
 
-    //this.newsApi.initSources().subscribe(data => this.mSources = data['sources'])
+  getArticlesBySource(source: string){
+    this.newsApi.getArticlesBySource(source).subscribe((data)=>{
+      this.mArticles = data['articles']
+    });
   }
 }
