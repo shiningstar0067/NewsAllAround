@@ -11,21 +11,18 @@ export class AppComponent {
 
   mArticles: Array<any> = [];
 	mSources: Array<any> = [];
-  
-  // mArticles: Article[] | undefined;
-  // mSources: Source[] | undefined;
 
   constructor(private newsApi: NewsApiService){}
 
   ngOnInit(){
     //load articles
-    this.newsApi.initHeadlines().subscribe(data => this.mArticles = data['articles']);
+    this.newsApi.initHeadlines().subscribe((data: any) => this.mArticles = data['articles']);
 		//load news sources
-		this.newsApi.initSources().subscribe(data=> this.mSources = data['sources']);	
+		this.newsApi.initSources().subscribe((data: any)=> this.mSources = data['sources']);	
   }
 
   getArticlesBySource(source: string){
-    this.newsApi.getArticlesBySource(source).subscribe((data)=>{
+    this.newsApi.getArticlesBySource(source).subscribe((data: any)=>{
       this.mArticles = data['articles']
     });
   }
